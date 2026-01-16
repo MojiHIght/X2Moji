@@ -1,5 +1,3 @@
--- [ V 1.3 ]
-
 Library = {}
 SaveTheme = {}
 
@@ -1927,7 +1925,30 @@ function Library:Window(p)
 
 			Click.MouseButton1Click:Connect(change)
 
-			delay(0.1, change)
+			-- Initial setup: only update UI, don't call Callback (to prevent Notify spam)
+			delay(0.1, function()
+				Value = not Value
+				if Value then
+					Config:SetTextTransparencyTitle(0)
+					tw({v = Frame_1, t = 0.15, s = Enum.EasingStyle.Linear, d = "Out", g = {BackgroundColor3 = themes[IsTheme].Function.Toggle.True['Toggle Background']}}):Play()
+					tw({v = Frame_2, t = 0.15, s = Enum.EasingStyle.Linear, d = "Out",
+						g = {
+							BackgroundColor3 = themes[IsTheme].Function.Toggle.True['Toggle Value'],
+							AnchorPoint = Vector2.new(1, 0.5),
+							Position = UDim2.new(1, 0,0.5, 0)
+						}}):Play()
+				else
+					Config:SetTextTransparencyTitle(0.7)
+					tw({v = Frame_1, t = 0.15, s = Enum.EasingStyle.Linear, d = "Out", g = {BackgroundColor3 = themes[IsTheme].Function.Toggle.False['Toggle Background']}}):Play()
+					tw({v = Frame_2, t = 0.15, s = Enum.EasingStyle.Linear, d = "Out",
+						g = {
+							BackgroundColor3 = themes[IsTheme].Function.Toggle.False['Toggle Value'],
+							AnchorPoint = Vector2.new(0, 0.5),
+							Position = UDim2.new(0, 0,0.5, 0)
+						}}):Play()
+				end
+				-- NO Callback call here!
+			end)
 
 			local New = {}
 
