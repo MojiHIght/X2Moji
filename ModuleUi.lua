@@ -1,3 +1,5 @@
+-- ======= V 1.2 ======= --
+
 Library = {}
 SaveTheme = {}
 
@@ -1948,16 +1950,18 @@ function Library:Window(p)
 			
 			-- For config system: Set value without triggering save (used when loading)
 			function New:Set(t)
-				if Value ~= t then
-					Value = not t
-					change(true) -- skipSave = true
-				end
+				-- Wait for UI to initialize first
+				task.defer(function()
+					if Value ~= t then
+						Value = not t
+						change(true) -- skipSave = true
+					end
+				end)
 			end
 			
 			-- Register element for config system
 			if Flag then
 				Library.Elements[Flag] = New
-				Library.ConfigData[Flag] = Value
 			end
 
 			return New
@@ -2913,14 +2917,16 @@ function Library:Window(p)
 			
 			-- For config system
 			function New:Set(t)
-				DropdownSelect:SetValue(t)
-				currentValue = t
+				task.defer(function()
+					DropdownSelect:SetValue(t)
+					currentValue = t
+					pcall(Callback, t) -- Call callback to sync with script logic
+				end)
 			end
 			
 			-- Register element for config system
 			if Flag then
 				Library.Elements[Flag] = New
-				Library.ConfigData[Flag] = currentValue
 			end
 
 			return New
@@ -4118,18 +4124,17 @@ function Library:Window(p)
 			
 			-- For config system
 			function New:Set(value)
-				if value then
-					TextLabel_1.Text = tostring(value)
-					pcall(Callback, tostring(value))
-				end
+				task.defer(function()
+					if value then
+						TextLabel_1.Text = tostring(value)
+						pcall(Callback, tostring(value))
+					end
+				end)
 			end
 			
 			-- Register element for config system
 			if Flag then
 				Library.Elements[Flag] = New
-				if Value and Value ~= '' then
-					Library.ConfigData[Flag] = Value
-				end
 			end
 
 			return New
