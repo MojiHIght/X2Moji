@@ -1,5 +1,3 @@
--- ======= V 1.2 ======= --
-
 Library = {}
 SaveTheme = {}
 
@@ -1950,8 +1948,8 @@ function Library:Window(p)
 			
 			-- For config system: Set value without triggering save (used when loading)
 			function New:Set(t)
-				-- Wait for UI to initialize first
-				task.defer(function()
+				-- Wait longer than delay(0.1, change) to ensure initial setup is done
+				task.delay(0.2, function()
 					if Value ~= t then
 						Value = not t
 						change(true) -- skipSave = true
