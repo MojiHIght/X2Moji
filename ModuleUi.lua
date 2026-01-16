@@ -1,3 +1,5 @@
+------- ====== [ V. 1.5 ]
+
 Library = {}
 SaveTheme = {}
 
@@ -235,7 +237,7 @@ local themes = {
 }
 
 local ScreenGui = Instance.new("ScreenGui")
-ScreenGui.Name = "Dummy Kawaii"
+ScreenGui.Name = "X2Moji - Hub"
 ScreenGui.Parent = not game:GetService("RunService"):IsStudio() and game:GetService("CoreGui") or game:GetService("Players").LocalPlayer.PlayerGui
 ScreenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
 
