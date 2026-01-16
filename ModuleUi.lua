@@ -1,5 +1,3 @@
-------- ====== [ V. 1.5 ]
-
 Library = {}
 SaveTheme = {}
 
@@ -1084,11 +1082,25 @@ do
 		function itemslist:SetValue(value)
 			if Multi then
 				selectedValues = {}
-				selectedValues[value] = true
-				TextLabelValue_1.Text = value
+				-- Support table value for Multi Dropdown
+				if type(value) == "table" then
+					for _, v in pairs(value) do
+						if type(v) == "string" then
+							selectedValues[v] = true
+						end
+					end
+					local displayItems = {}
+					for k, _ in pairs(selectedValues) do
+						table.insert(displayItems, k)
+					end
+					TextLabelValue_1.Text = #displayItems > 0 and table.concat(displayItems, ", ") or "Select..."
+				else
+					selectedValues[value] = true
+					TextLabelValue_1.Text = value
+				end
 				for _, v in ipairs(ScrollingFrame_1:GetChildren()) do
 					if v:IsA("Frame") and v:FindFirstChild("TextLabel") then
-						if v.TextLabel.Text == value then
+						if selectedValues[v.TextLabel.Text] then
 							tw({v = v.TextLabel, t = 0.05, s = Enum.EasingStyle.Exponential, d = "Out", g = {TextTransparency = 0}}):Play()
 						else
 							tw({v = v.TextLabel, t = 0.05, s = Enum.EasingStyle.Exponential, d = "Out", g = {TextTransparency = 0.8}}):Play()
