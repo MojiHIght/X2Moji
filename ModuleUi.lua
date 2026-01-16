@@ -1,3 +1,5 @@
+-- [ V 1.3 ]
+
 Library = {}
 SaveTheme = {}
 
@@ -2913,12 +2915,11 @@ function Library:Window(p)
 				DropdownSelect:Clear(n)
 			end
 			
-			-- For config system
+			-- For config system (no callback to prevent notification spam)
 			function New:Set(t)
 				task.defer(function()
 					DropdownSelect:SetValue(t)
 					currentValue = t
-					pcall(Callback, t) -- Call callback to sync with script logic
 				end)
 			end
 			
@@ -4120,12 +4121,11 @@ function Library:Window(p)
 				TextLabel_1.PlaceholderText = t
 			end
 			
-			-- For config system
+			-- For config system (no callback to prevent notification spam)
 			function New:Set(value)
 				task.defer(function()
 					if value then
 						TextLabel_1.Text = tostring(value)
-						pcall(Callback, tostring(value))
 					end
 				end)
 			end
