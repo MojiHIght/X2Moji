@@ -1,5 +1,3 @@
--- ======= Version 2.1 ======= --
-
 Library = {}
 SaveTheme = {}
 
@@ -1997,32 +1995,13 @@ function Library:Window(p)
 				change()
 			end
 			
-			-- For config system: Set value without triggering callback (used when loading)
+			-- For config system: Set value and call callback, but don't save (used when loading)
 			function New:Set(t)
 				-- Wait longer than delay(0.1, change) to ensure initial setup is done
 				task.delay(0.2, function()
 					if Value ~= t then
-						Value = t
-						-- Update UI only, no callback (to prevent auto-start on load)
-						if Value then
-							Config:SetTextTransparencyTitle(0)
-							tw({v = Frame_1, t = 0.15, s = Enum.EasingStyle.Linear, d = "Out", g = {BackgroundColor3 = themes[IsTheme].Function.Toggle.True['Toggle Background']}}):Play()
-							tw({v = Frame_2, t = 0.15, s = Enum.EasingStyle.Linear, d = "Out",
-								g = {
-									BackgroundColor3 = themes[IsTheme].Function.Toggle.True['Toggle Value'],
-									AnchorPoint = Vector2.new(1, 0.5),
-									Position = UDim2.new(1, 0,0.5, 0)
-								}}):Play()
-						else
-							Config:SetTextTransparencyTitle(0.7)
-							tw({v = Frame_1, t = 0.15, s = Enum.EasingStyle.Linear, d = "Out", g = {BackgroundColor3 = themes[IsTheme].Function.Toggle.False['Toggle Background']}}):Play()
-							tw({v = Frame_2, t = 0.15, s = Enum.EasingStyle.Linear, d = "Out",
-								g = {
-									BackgroundColor3 = themes[IsTheme].Function.Toggle.False['Toggle Value'],
-									AnchorPoint = Vector2.new(0, 0.5),
-									Position = UDim2.new(0, 0,0.5, 0)
-								}}):Play()
-						end
+						Value = not t  -- Flip because change() will flip again
+						change(true)   -- skipSave = true, but still calls callback
 					end
 				end)
 			end
