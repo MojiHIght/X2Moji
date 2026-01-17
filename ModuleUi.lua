@@ -1,3 +1,5 @@
+-----asdasd
+
 Library = {}
 SaveTheme = {}
 
@@ -1907,8 +1909,6 @@ function Library:Window(p)
 			UIPadding_2.PaddingRight = UDim.new(0,2)
 
 			local Click = click(Toggle)
-
-			Value = not Value
 
 			local function change(skipSave)
 				Value = not Value
