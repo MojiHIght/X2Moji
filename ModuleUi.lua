@@ -1,5 +1,3 @@
----------------------------------------
-
 Library = {}
 SaveTheme = {}
 
@@ -1953,9 +1951,9 @@ function Library:Window(p)
 
 			Click.MouseButton1Click:Connect(change)
 
-			-- Initial setup: only update UI, don't call Callback (to prevent Notify spam)
+			-- Initial setup: only update UI to match initial Value, don't flip
 			delay(0.1, function()
-				Value = not Value
+				-- Don't flip! Just update UI to match current Value
 				if Value then
 					Config:SetTextTransparencyTitle(0)
 					tw({v = Frame_1, t = 0.15, s = Enum.EasingStyle.Linear, d = "Out", g = {BackgroundColor3 = themes[IsTheme].Function.Toggle.True['Toggle Background']}}):Play()
@@ -1975,7 +1973,6 @@ function Library:Window(p)
 							Position = UDim2.new(0, 0,0.5, 0)
 						}}):Play()
 				end
-				-- NO Callback call here!
 			end)
 
 			local New = {}
