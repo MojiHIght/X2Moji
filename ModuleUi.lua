@@ -1,5 +1,3 @@
--- =========== Ver 2.0
-
 Library = {}
 SaveTheme = {}
 
@@ -1131,6 +1129,18 @@ do
 		end
 
 		changecanvas(ScrollingFrame_1, UIListLayout_1, 5)
+		
+		-- For config system: Set value without triggering callback loop
+		function itemslist:Set(value)
+			task.delay(0.2, function()
+				self:SetValue(value)
+			end)
+		end
+		
+		-- Register element for config system
+		if Flag then
+			Library.Elements[Flag] = itemslist
+		end
 
 		return itemslist
 	end
